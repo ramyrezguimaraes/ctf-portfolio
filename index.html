@@ -43,9 +43,12 @@
       --glow1: rgba(0,255,255,0.14);
       --glow2: rgba(68,255,229,0.10);
       --glow3: rgba(0,255,255,0.08);
+
+      --ok: #6dffb6;
+      --warn: #ffd36d;
+      --danger: #ff6d6d;
     }
 
-    /* Tema "discreto": menos neon, mais corporativo */
     [data-theme="discrete"]{
       --bg: #0c1016;
       --bg2: #0b0f14;
@@ -62,10 +65,6 @@
       --accentHover: #47bfe6;
 
       --border: rgba(107, 215, 255, 0.18);
-      --border2: rgba(255,255,255,0.08);
-
-      --shadow: 0 18px 60px rgba(0,0,0,0.46);
-      --shadow2: 0 10px 28px rgba(0,0,0,0.30);
 
       --gridOpacity: 0.12;
       --glow1: rgba(107,215,255,0.08);
@@ -123,6 +122,18 @@
     }
     .skip-link:focus{ left: 10px; }
 
+    /* Indicador de scroll (topo) */
+    .scrollbar{
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 100;
+      box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 35%, transparent);
+    }
+
     /* ============================
        NAVBAR
        ============================ */
@@ -159,8 +170,6 @@
       height: 10px;
       border-radius: 999px;
       background: var(--accent);
-      box-shadow: 0 0 20px rgba(0,0,0,0.0), 0 0 18px rgba(0,0,0,0.0);
-      /* leve glow controlado (adaptado ao tema pelo accent) */
       box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent);
       flex: 0 0 auto;
     }
@@ -197,7 +206,7 @@
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
     }
 
-    /* Toggle */
+    /* Toggle tema */
     .toggle{
       display: inline-flex;
       align-items: center;
@@ -245,7 +254,7 @@
     }
     .hero-card{
       border-radius: var(--radius2);
-      border: 1px solid var(--border2);
+      border: 1px solid rgba(255,255,255,0.08);
       background: linear-gradient(180deg, var(--panel), var(--panel2));
       box-shadow: var(--shadow);
       padding: 22px;
@@ -271,7 +280,7 @@
     .hero p{
       margin: 10px 0 0;
       color: var(--muted);
-      max-width: 75ch;
+      max-width: 78ch;
       position: relative;
       z-index: 2;
     }
@@ -301,6 +310,7 @@
       background: var(--accent);
       box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 30%, transparent);
     }
+
     .hero-actions{
       display: flex;
       gap: 12px;
@@ -308,6 +318,70 @@
       margin-top: 18px;
       position: relative;
       z-index: 2;
+      align-items: center;
+    }
+
+    /* ============================
+       CONTROLS (Busca/Filtro)
+       ============================ */
+    .controls{
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 14px;
+      position: relative;
+      z-index: 2;
+    }
+    .search{
+      flex: 1 1 260px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.22);
+    }
+    .search input{
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.98rem;
+    }
+    .search input::placeholder{ color: var(--muted2); font-weight: 700; }
+
+    .filter-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filter-chip{
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.20);
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 0.9rem;
+      padding: 9px 12px;
+      border-radius: 999px;
+      transition: transform .12s ease, background .2s ease, border-color .2s ease, color .2s ease;
+      user-select: none;
+    }
+    .filter-chip:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.14);
+      color: var(--text);
+    }
+    .filter-chip[aria-pressed="true"]{
+      background: color-mix(in srgb, var(--accent) 10%, rgba(0,0,0,0.22));
+      border-color: color-mix(in srgb, var(--accent) 25%, rgba(255,255,255,0.12));
+      color: var(--text);
     }
 
     /* Botões */
@@ -358,7 +432,6 @@
       margin: 34px auto;
       padding: 0 20px;
     }
-
     .section-title{
       display: flex;
       align-items: center;
@@ -372,7 +445,6 @@
       font-size: clamp(1.15rem, 2vw, 1.4rem);
       letter-spacing: 0.2px;
     }
-
     .icon{
       width: 20px;
       height: 20px;
@@ -381,14 +453,13 @@
       filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 20%, transparent));
     }
 
-    /* Grid */
     .grid{
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 14px;
     }
 
-    /* Card de projeto */
+    /* Cards de projeto */
     .project{
       grid-column: span 12;
       border-radius: var(--radius);
@@ -400,12 +471,13 @@
       overflow: hidden;
 
       opacity: 0;
-      transform: translateY(18px);
-      animation: fadeUp 0.65s ease forwards;
+      transform: translateY(14px);
+      transition: opacity .5s ease, transform .5s ease, border-color .2s ease;
     }
-    .project:nth-child(1){ animation-delay: .05s; }
-    .project:nth-child(2){ animation-delay: .12s; }
-    .project:nth-child(3){ animation-delay: .19s; }
+    .project.reveal{
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     .project::before{
       content:"";
@@ -419,13 +491,11 @@
     .project:hover{
       border-color: rgba(255,255,255,0.12);
       transform: translateY(-2px);
-      transition: transform .18s ease, border-color .2s ease;
     }
 
-    @keyframes fadeUp{ to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce){
       html{ scroll-behavior: auto; }
-      .project{ animation: none; opacity: 1; transform: none; }
+      .project{ opacity: 1; transform: none; }
       .project:hover{ transform: none; }
     }
 
@@ -464,7 +534,24 @@
     }
     .meta strong{ color: var(--text); }
 
-    /* Ações do projeto: Preview + Download */
+    .tags{
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    .tag{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.18);
+      color: var(--muted);
+      font-weight: 900;
+      font-size: 0.85rem;
+    }
+
     .actions{
       margin-top: 14px;
       display: flex;
@@ -472,9 +559,44 @@
       flex-wrap: wrap;
       position: relative;
       z-index: 2;
+      align-items: center;
     }
 
-    /* Chips */
+    .mini-btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.22);
+      color: var(--text);
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+      outline: none;
+      text-decoration: none;
+    }
+    .mini-btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .mini-btn:focus-visible{
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+    }
+
+    /* Cards genéricos */
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+    .card p{ margin: 0; color: var(--muted); }
+
+    /* Chips skills */
     .chips{
       display: flex;
       flex-wrap: wrap;
@@ -498,16 +620,6 @@
       border-color: rgba(255,255,255,0.14);
       background: rgba(255,255,255,0.04);
     }
-
-    /* Cards genéricos */
-    .card{
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.08);
-      background: linear-gradient(180deg, var(--panel), var(--panel2));
-      box-shadow: var(--shadow2);
-      padding: 18px;
-    }
-    .card p{ margin: 0; color: var(--muted); }
 
     /* LinkedIn */
     .linkedin{
@@ -604,6 +716,7 @@
       color: var(--text);
       margin: 0;
       font-size: 1rem;
+      flex-wrap: wrap;
     }
     .modal-title small{
       color: var(--muted2);
@@ -615,6 +728,7 @@
       gap: 10px;
       flex-wrap: wrap;
       justify-content: flex-end;
+      align-items: center;
     }
 
     .icon-btn{
@@ -643,6 +757,7 @@
     .modal-body{
       height: min(72vh, 720px);
       background: rgba(0,0,0,0.18);
+      position: relative;
     }
 
     .pdf-embed{
@@ -653,17 +768,91 @@
       background: rgba(0,0,0,0.12);
     }
 
+    /* Loading overlay */
+    .loader{
+      position: absolute;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted);
+      font-weight: 900;
+      background: rgba(0,0,0,0.22);
+      backdrop-filter: blur(6px);
+    }
+    .loader[aria-hidden="false"]{ display: flex; }
+    .spinner{
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 3px solid rgba(255,255,255,0.14);
+      border-top-color: var(--accent);
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     .modal-hint{
       padding: 10px 14px;
       color: var(--muted2);
       font-size: 0.9rem;
       border-top: 1px solid rgba(255,255,255,0.06);
       background: rgba(0,0,0,0.14);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
     }
+
+    /* ============================
+       TOAST (feedback)
+       ============================ */
+    .toast{
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.68);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      display: none;
+      gap: 10px;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+      backdrop-filter: blur(10px);
+      max-width: min(720px, 94vw);
+    }
+    .toast.show{ display: inline-flex; }
+    .toast .dot{
+      width: 10px; height: 10px; border-radius: 999px;
+      background: var(--ok);
+      box-shadow: 0 0 14px color-mix(in srgb, var(--ok) 35%, transparent);
+      flex: 0 0 auto;
+    }
+    .toast.warn .dot{ background: var(--warn); box-shadow: 0 0 14px color-mix(in srgb, var(--warn) 35%, transparent); }
+    .toast.danger .dot{ background: var(--danger); box-shadow: 0 0 14px color-mix(in srgb, var(--danger) 35%, transparent); }
+    .toast span{ color: var(--muted); font-weight: 900; }
+    .toast strong{ color: var(--text); }
+
+    /* ============================
+       Back to top
+       ============================ */
+    .to-top{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 80;
+      display: none;
+    }
+    .to-top.show{ display: block; }
   </style>
 </head>
 
 <body>
+  <div class="scrollbar" id="scrollbar"></div>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
 
   <nav class="navbar" aria-label="Navegação principal">
@@ -681,7 +870,6 @@
           <a href="https://www.linkedin.com/in/ramyrez-guimaraes/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         </div>
 
-        <!-- Toggle de tema -->
         <div class="toggle" aria-label="Alternar tema">
           <button id="btnNeon" type="button" aria-pressed="true" title="Tema Neon">Neon</button>
           <button id="btnDiscrete" type="button" aria-pressed="false" title="Tema Discreto">Discreto</button>
@@ -706,6 +894,23 @@
           <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Network</span>
         </div>
 
+        <!-- Busca + filtros -->
+        <div class="controls" aria-label="Buscar e filtrar projetos">
+          <div class="search" role="search">
+            <span class="badge-dot" aria-hidden="true"></span>
+            <input id="searchInput" type="search" placeholder="Buscar por título, ferramentas ou tags (ex: wireshark, forense, tls)" aria-label="Buscar projetos" />
+          </div>
+
+          <div class="filter-row" aria-label="Filtros por tag">
+            <button class="filter-chip" type="button" data-filter="all" aria-pressed="true">Tudo</button>
+            <button class="filter-chip" type="button" data-filter="linux" aria-pressed="false">Linux</button>
+            <button class="filter-chip" type="button" data-filter="forense" aria-pressed="false">Forense</button>
+            <button class="filter-chip" type="button" data-filter="crypto" aria-pressed="false">Crypto</button>
+            <button class="filter-chip" type="button" data-filter="network" aria-pressed="false">Network</button>
+            <button class="filter-chip" type="button" data-filter="rev" aria-pressed="false">Reverse</button>
+          </div>
+        </div>
+
         <div class="hero-actions">
           <a class="btn btn-primary" href="#projetos" aria-label="Ir para projetos">Ver projetos</a>
           <a class="btn btn-secondary" href="#sobre" aria-label="Ir para sobre o projeto">Sobre o projeto</a>
@@ -723,9 +928,15 @@
         <h2>Projetos resolvidos</h2>
       </div>
 
-      <div class="grid">
+      <div class="grid" id="projectsGrid" aria-label="Lista de projetos">
         <!-- GS 2023 -->
-        <article class="project">
+        <article
+          class="project"
+          id="gs-2023"
+          data-title="GS 2023"
+          data-tags="linux,network,rev"
+          data-search="linux esteganografia engenharia reversa wireshark"
+        >
           <div class="project-head">
             <h3>
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
@@ -736,6 +947,12 @@
           </div>
 
           <p>Desafios de Linux, esteganografia, engenharia reversa e análise de rede via Wireshark.</p>
+
+          <div class="tags" aria-label="Tags do projeto">
+            <span class="tag">Linux</span>
+            <span class="tag">Network</span>
+            <span class="tag">Reverse</span>
+          </div>
 
           <div class="meta">
             <strong>Nível:</strong> Intermediário<br>
@@ -756,11 +973,21 @@
             <a class="btn btn-primary" href="docs/CTFS_da_prova_GS_2023.pdf" download aria-label="Baixar relatório GS 2023">
               Download
             </a>
+
+            <button class="mini-btn" type="button" data-copy="#gs-2023" aria-label="Copiar link do projeto GS 2023">
+              Copiar link
+            </button>
           </div>
         </article>
 
         <!-- GS 2024 Parte 1 -->
-        <article class="project">
+        <article
+          class="project"
+          id="gs-2024-p1"
+          data-title="GS 2024 – Parte 1"
+          data-tags="crypto,network"
+          data-search="tls brute force john the ripper decodificação"
+        >
           <div class="project-head">
             <h3>
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
@@ -771,6 +998,11 @@
           </div>
 
           <p>Engenharia reversa de tráfego TLS, brute force com John the Ripper e decodificações múltiplas.</p>
+
+          <div class="tags" aria-label="Tags do projeto">
+            <span class="tag">Crypto</span>
+            <span class="tag">Network</span>
+          </div>
 
           <div class="meta">
             <strong>Nível:</strong> Intermediário / Avançado<br>
@@ -791,11 +1023,21 @@
             <a class="btn btn-primary" href="docs/CTFS_da_prova_GS_2024_Parte1.pdf" download aria-label="Baixar relatório GS 2024 Parte 1">
               Download
             </a>
+
+            <button class="mini-btn" type="button" data-copy="#gs-2024-p1" aria-label="Copiar link do projeto GS 2024 Parte 1">
+              Copiar link
+            </button>
           </div>
         </article>
 
         <!-- GS 2024 Parte 2 -->
-        <article class="project">
+        <article
+          class="project"
+          id="gs-2024-p2"
+          data-title="GS 2024 – Parte 2"
+          data-tags="linux,forense"
+          data-search="forense icmp md5 yenc cms privilege escalation linux"
+        >
           <div class="project-head">
             <h3>
               <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
@@ -806,6 +1048,11 @@
           </div>
 
           <p>CTFs forenses com ICMP, hash MD5, yEnc, exploração de CMS e elevação de privilégios em Linux.</p>
+
+          <div class="tags" aria-label="Tags do projeto">
+            <span class="tag">Linux</span>
+            <span class="tag">Forense</span>
+          </div>
 
           <div class="meta">
             <strong>Nível:</strong> Avançado<br>
@@ -826,9 +1073,17 @@
             <a class="btn btn-primary" href="docs/CTFS_da_prova_GS_2024_Parte2.pdf" download aria-label="Baixar relatório GS 2024 Parte 2">
               Download
             </a>
+
+            <button class="mini-btn" type="button" data-copy="#gs-2024-p2" aria-label="Copiar link do projeto GS 2024 Parte 2">
+              Copiar link
+            </button>
           </div>
         </article>
       </div>
+
+      <p id="noResults" style="display:none;color:var(--muted);font-weight:900;margin-top:16px;">
+        Nenhum projeto encontrado com esse filtro/busca.
+      </p>
     </section>
 
     <section id="sobre">
@@ -893,9 +1148,14 @@
     </section>
 
     <footer>
-      &copy; 2026 Ramyrez Guimarães | Cibersegurança
+      &copy; <span id="year"></span> Ramyrez Guimarães | Cibersegurança
     </footer>
   </main>
+
+  <!-- Back to top -->
+  <div class="to-top" id="toTop">
+    <button class="mini-btn" type="button" aria-label="Voltar ao topo">↑ Topo</button>
+  </div>
 
   <!-- MODAL PDF PREVIEW -->
   <div class="modal-backdrop" id="pdfModalBackdrop" aria-hidden="true">
@@ -907,6 +1167,9 @@
         </h3>
 
         <div class="modal-actions">
+          <a class="mini-btn" id="pdfOpenTabBtn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Abrir PDF em nova aba">
+            Abrir em nova aba
+          </a>
           <a class="btn btn-primary" id="pdfDownloadBtn" href="#" download aria-label="Baixar PDF aberto no preview">
             Download
           </a>
@@ -918,23 +1181,61 @@
 
       <div class="modal-body">
         <iframe class="pdf-embed" id="pdfFrame" src="" title="Pré-visualização do PDF"></iframe>
+        <div class="loader" id="pdfLoader" aria-hidden="true">
+          <div class="spinner" aria-hidden="true"></div>
+          Carregando PDF…
+        </div>
       </div>
 
       <div class="modal-hint">
-        Dica: pressione <strong>Esc</strong> para fechar • Clique fora do modal para fechar.
+        <span>Dica: <strong>Esc</strong> fecha • Clique fora fecha</span>
+        <span style="color:var(--muted2)">Se o preview não aparecer, use “Abrir em nova aba”.</span>
       </div>
     </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <div class="dot" aria-hidden="true"></div>
+    <div><strong id="toastTitle">Ok</strong> <span id="toastMsg">Mensagem</span></div>
   </div>
 
   <script>
     (function () {
       /* ============================
-         THEME TOGGLE (Neon / Discrete)
+         Helpers
+         ============================ */
+      const $ = (sel, root=document) => root.querySelector(sel);
+      const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+      function showToast(type, title, msg){
+        const toast = $("#toast");
+        const tTitle = $("#toastTitle");
+        const tMsg = $("#toastMsg");
+
+        toast.classList.remove("warn","danger");
+        if(type === "warn") toast.classList.add("warn");
+        if(type === "danger") toast.classList.add("danger");
+
+        tTitle.textContent = title;
+        tMsg.textContent = msg;
+
+        toast.classList.add("show");
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove("show"), 2200);
+      }
+
+      /* ============================
+         YEAR
+         ============================ */
+      $("#year").textContent = new Date().getFullYear();
+
+      /* ============================
+         THEME TOGGLE
          ============================ */
       const root = document.documentElement;
-      const btnNeon = document.getElementById("btnNeon");
-      const btnDiscrete = document.getElementById("btnDiscrete");
-
+      const btnNeon = $("#btnNeon");
+      const btnDiscrete = $("#btnDiscrete");
       const THEME_KEY = "ramyrez_theme";
       const savedTheme = localStorage.getItem(THEME_KEY);
 
@@ -943,50 +1244,173 @@
           root.setAttribute("data-theme", "discrete");
           btnNeon.setAttribute("aria-pressed", "false");
           btnDiscrete.setAttribute("aria-pressed", "true");
+          localStorage.setItem(THEME_KEY, "discrete");
+          showToast("warn","Tema","Discreto ativado");
         } else {
-          root.removeAttribute("data-theme"); // Neon default
+          root.removeAttribute("data-theme");
           btnNeon.setAttribute("aria-pressed", "true");
           btnDiscrete.setAttribute("aria-pressed", "false");
+          localStorage.setItem(THEME_KEY, "neon");
+          showToast("warn","Tema","Neon ativado");
         }
-        localStorage.setItem(THEME_KEY, theme);
       }
 
-      // Inicializa
       applyTheme(savedTheme === "discrete" ? "discrete" : "neon");
-
       btnNeon.addEventListener("click", () => applyTheme("neon"));
       btnDiscrete.addEventListener("click", () => applyTheme("discrete"));
 
       /* ============================
+         Scroll progress + back to top
+         ============================ */
+      const scrollbar = $("#scrollbar");
+      const toTop = $("#toTop");
+      function onScroll(){
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop;
+        const scrollHeight = doc.scrollHeight - doc.clientHeight;
+        const progress = scrollHeight ? (scrollTop / scrollHeight) * 100 : 0;
+        scrollbar.style.width = progress.toFixed(2) + "%";
+        if(scrollTop > 700) toTop.classList.add("show");
+        else toTop.classList.remove("show");
+      }
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+      toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+      /* ============================
+         Reveal on view (IntersectionObserver)
+         ============================ */
+      const cards = $$(".project");
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if(e.isIntersecting){
+            e.target.classList.add("reveal");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      cards.forEach(c => io.observe(c));
+
+      /* ============================
+         Search + Filter
+         ============================ */
+      const searchInput = $("#searchInput");
+      const filterButtons = $$(".filter-chip");
+      const noResults = $("#noResults");
+      const grid = $("#projectsGrid");
+
+      let activeFilter = "all";
+
+      function normalize(s){
+        return (s || "").toLowerCase().trim();
+      }
+
+      function matchesFilter(card){
+        const q = normalize(searchInput.value);
+        const searchBlob = normalize(card.getAttribute("data-search")) + " " + normalize(card.getAttribute("data-title")) + " " + normalize(card.getAttribute("data-tags"));
+
+        const okSearch = !q || searchBlob.includes(q);
+
+        if(activeFilter === "all") return okSearch;
+
+        const tags = normalize(card.getAttribute("data-tags")).split(",").map(x => x.trim());
+        const okTag = tags.includes(activeFilter);
+
+        return okSearch && okTag;
+      }
+
+      function applyFilters(){
+        let visibleCount = 0;
+        cards.forEach(card => {
+          const show = matchesFilter(card);
+          card.style.display = show ? "" : "none";
+          if(show) visibleCount++;
+        });
+        noResults.style.display = visibleCount ? "none" : "block";
+      }
+
+      searchInput.addEventListener("input", applyFilters);
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          filterButtons.forEach(b => b.setAttribute("aria-pressed","false"));
+          btn.setAttribute("aria-pressed","true");
+          activeFilter = btn.getAttribute("data-filter");
+          applyFilters();
+        });
+      });
+
+      /* ============================
+         Copy link do projeto
+         ============================ */
+      document.addEventListener("click", async (e) => {
+        const b = e.target.closest("button[data-copy]");
+        if(!b) return;
+
+        const hash = b.getAttribute("data-copy");
+        const url = window.location.origin + window.location.pathname + hash;
+
+        try{
+          await navigator.clipboard.writeText(url);
+          showToast("ok","Copiado!","Link do projeto no clipboard");
+        } catch {
+          // fallback
+          const ta = document.createElement("textarea");
+          ta.value = url;
+          document.body.appendChild(ta);
+          ta.select();
+          try{
+            document.execCommand("copy");
+            showToast("ok","Copiado!","Link do projeto no clipboard");
+          } catch {
+            showToast("danger","Erro","Não foi possível copiar");
+          }
+          ta.remove();
+        }
+      });
+
+      /* ============================
          PDF PREVIEW MODAL
          ============================ */
-      const backdrop = document.getElementById("pdfModalBackdrop");
-      const frame = document.getElementById("pdfFrame");
-      const titleText = document.getElementById("pdfTitleText");
-      const urlText = document.getElementById("pdfUrlText");
-      const closeBtn = document.getElementById("pdfCloseBtn");
-      const downloadBtn = document.getElementById("pdfDownloadBtn");
-
+      const backdrop = $("#pdfModalBackdrop");
+      const frame = $("#pdfFrame");
+      const loader = $("#pdfLoader");
+      const titleText = $("#pdfTitleText");
+      const urlText = $("#pdfUrlText");
+      const closeBtn = $("#pdfCloseBtn");
+      const downloadBtn = $("#pdfDownloadBtn");
+      const openTabBtn = $("#pdfOpenTabBtn");
       let lastFocusedElement = null;
 
       function openModal(pdfUrl, title) {
         lastFocusedElement = document.activeElement;
 
         titleText.textContent = title || "Documento";
-        urlText.textContent = ""; // Mantém limpo; se quiser, pode mostrar o caminho aqui
-        frame.src = pdfUrl;
-        downloadBtn.href = pdfUrl;
+        urlText.textContent = "";
+        frame.src = "about:blank";
+        loader.setAttribute("aria-hidden","false");
 
+        // Ações
+        downloadBtn.href = pdfUrl;
+        openTabBtn.href = pdfUrl;
+
+        // Exibe modal
         backdrop.setAttribute("aria-hidden", "false");
         document.body.style.overflow = "hidden";
 
-        // Foca no botão de fechar para acessibilidade
+        // Carrega PDF
+        // Timeout pequeno só pra garantir que o loader apareça antes do iframe carregar
+        setTimeout(() => {
+          frame.src = pdfUrl;
+        }, 30);
+
         closeBtn.focus();
       }
 
       function closeModal() {
         backdrop.setAttribute("aria-hidden", "true");
-        frame.src = ""; // limpa para parar o PDF e economizar recursos
+        frame.src = "about:blank";
+        loader.setAttribute("aria-hidden","true");
         document.body.style.overflow = "";
 
         if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
@@ -994,7 +1418,12 @@
         }
       }
 
-      // Clique nos botões de preview (data-pdf)
+      // Esconde loader quando o iframe terminar
+      frame.addEventListener("load", () => {
+        loader.setAttribute("aria-hidden","true");
+      });
+
+      // Abre modal via botões preview
       document.addEventListener("click", (e) => {
         const btn = e.target.closest("button[data-pdf]");
         if (!btn) return;
@@ -1004,23 +1433,19 @@
         openModal(pdfUrl, title);
       });
 
-      // Fechar por botão
       closeBtn.addEventListener("click", closeModal);
 
-      // Fechar ao clicar fora do modal
       backdrop.addEventListener("click", (e) => {
-        // se clicou no backdrop (fora da caixa)
         if (e.target === backdrop) closeModal();
       });
 
-      // Fechar com ESC
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && backdrop.getAttribute("aria-hidden") === "false") {
           closeModal();
         }
       });
 
-      // "Trap" simples de foco dentro do modal (mínimo necessário)
+      // Trap simples de foco dentro do modal
       document.addEventListener("keydown", (e) => {
         if (e.key !== "Tab") return;
         if (backdrop.getAttribute("aria-hidden") !== "false") return;
@@ -1037,8 +1462,16 @@
           first.focus();
         }
       });
+
+      /* Atalho: "/" foca na busca */
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "/" && document.activeElement !== searchInput && backdrop.getAttribute("aria-hidden") === "true") {
+          e.preventDefault();
+          searchInput.focus();
+          showToast("warn","Atalho","Busca ativada (/)");
+        }
+      });
     })();
   </script>
 </body>
 </html>
-
