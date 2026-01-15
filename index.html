@@ -13,353 +13,684 @@
 
   <style>
     :root{
-      --bg: #111;
-      --panel: #1a1a1a;
-      --text: #eee;
-      --muted: #ccc;
-      --muted2: #777;
+      --bg: #0b0f14;
+      --bg2: #0a0d12;
+      --panel: rgba(18, 24, 33, 0.72);
+      --panel2: rgba(18, 24, 33, 0.52);
+      --text: #e9f1ff;
+      --muted: rgba(233,241,255,0.72);
+      --muted2: rgba(233,241,255,0.52);
       --accent: #00ffff;
+      --accent2: #44ffe5;
       --accentHover: #00c8c8;
-      --border: rgba(0, 255, 255, 0.35);
-      --shadow: 0 10px 30px rgba(0,0,0,0.35);
-      --radius: 10px;
+      --border: rgba(0, 255, 255, 0.22);
+      --border2: rgba(255,255,255,0.08);
+      --shadow: 0 18px 60px rgba(0,0,0,0.45);
+      --shadow2: 0 10px 30px rgba(0,0,0,0.28);
+      --radius: 16px;
+      --radius2: 22px;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
 
-    body {
-      background-color: var(--bg);
+    body{
+      margin: 0;
       color: var(--text);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      margin: 0;
-      padding: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
       line-height: 1.6;
+      background:
+        radial-gradient(900px 520px at 15% 10%, rgba(0,255,255,0.14), transparent 60%),
+        radial-gradient(900px 520px at 90% 20%, rgba(68,255,229,0.10), transparent 60%),
+        radial-gradient(700px 460px at 60% 95%, rgba(0,255,255,0.08), transparent 62%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x: hidden;
     }
 
-    header {
-      background: linear-gradient(90deg, var(--accent), rgba(0,255,255,0.45));
-      color: #111;
-      padding: 26px 18px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: clamp(1.3rem, 2.2vw, 1.9rem);
-      letter-spacing: 0.3px;
-    }
-
-    section {
-      max-width: 900px;
-      margin: 42px auto;
-      padding: 0 20px;
-    }
-
-    h2, h3 {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 2px solid var(--accent);
-      padding-bottom: 10px;
-      margin-bottom: 20px;
-    }
-
-    .project-box {
-      background-color: var(--panel);
-      border-left: 4px solid var(--accent);
-      padding: 20px;
-      margin-bottom: 26px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-
-      /* animação leve (fade + subir) */
-      opacity: 0;
-      transform: translateY(18px);
-      animation: fadeUp 0.7s ease forwards;
-    }
-
-    /* pequeno "stagger" só com CSS (sem JS) */
-    .project-box:nth-of-type(1) { animation-delay: 0.05s; }
-    .project-box:nth-of-type(2) { animation-delay: 0.12s; }
-    .project-box:nth-of-type(3) { animation-delay: 0.19s; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .project-box { animation: none; opacity: 1; transform: none; }
-    }
-
-    .project-box h3 {
-      border: none;
-      margin-top: 0;
-      margin-bottom: 6px;
-      padding-bottom: 0;
-    }
-
-    .project-box p {
-      color: var(--muted);
-      margin: 8px 0 0 0;
-    }
-
-    .meta {
-      margin-top: 10px;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: rgba(0,0,0,0.25);
-      color: var(--muted);
-    }
-
-    .meta strong { color: var(--text); }
-
-    .download-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 14px;
-      padding: 10px 18px;
-      background-color: var(--accent);
-      color: #111;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 700;
-      transition: transform 0.15s ease, background-color 0.25s ease;
-      outline: none;
-    }
-
-    .download-button:hover {
-      background-color: var(--accentHover);
-      transform: translateY(-1px);
-    }
-
-    .download-button:focus-visible {
-      box-shadow: 0 0 0 3px rgba(0,255,255,0.35);
-    }
-
-    ul { list-style: square; padding-left: 20px; color: var(--muted); }
-    li { margin: 4px 0; }
-
-    .linkedin-icon {
-      display: flex;
-      justify-content: center;
-      margin-top: 30px;
-    }
-
-    .linkedin-icon a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.25);
-      transition: transform 0.15s ease, border-color 0.25s ease;
-      outline: none;
-    }
-
-    .linkedin-icon a:hover {
-      transform: translateY(-1px);
-      border-color: rgba(0,255,255,0.65);
-    }
-
-    .linkedin-icon a:focus-visible {
-      box-shadow: 0 0 0 3px rgba(0,255,255,0.35);
-    }
-
-    .linkedin-icon a svg {
-      width: 26px;
-      height: 26px;
-      fill: var(--accent);
-      transition: fill 0.3s;
-    }
-
-    .linkedin-icon a:hover svg { fill: var(--accentHover); }
-
-    footer {
-      text-align: center;
-      padding: 22px 12px;
-      color: var(--muted2);
-      font-size: 0.92em;
-      border-top: 1px solid rgba(255,255,255,0.06);
+    /* Grid bem suave no fundo */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at 30% 0%, rgba(0,0,0,1), rgba(0,0,0,0) 55%);
+      opacity: 0.18;
+      z-index: 0;
     }
 
     a { color: var(--accent); }
+    a:hover { color: var(--accent2); }
 
-    .icon {
-      width: 20px;
-      height: 20px;
-      vertical-align: middle;
-      fill: var(--accent);
+    /* Skip link (acessibilidade) */
+    .skip-link{
+      position: absolute;
+      left: -999px;
+      top: 10px;
+      background: var(--accent);
+      color: #071018;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-weight: 900;
+      z-index: 9999;
+    }
+    .skip-link:focus{ left: 10px; }
+
+    /* Navbar */
+    .navbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(11,15,20,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .navbar-inner{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+    }
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      letter-spacing: 0.3px;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .brand-dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 20px rgba(0,255,255,0.45);
       flex: 0 0 auto;
     }
-
-    /* melhor contraste do texto dentro do header */
-    header a { color: #111; }
-
-    /* “pílula” opcional para destacar tags de skills (mantendo sua lista) */
-    .skill-hint {
+    .nav-links{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav-links a{
+      text-decoration: none;
       color: var(--muted);
-      margin-top: -6px;
-      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease, color .2s ease;
+    }
+    .nav-links a:hover{
+      color: var(--text);
+      background: rgba(0,255,255,0.08);
+      border-color: rgba(0,255,255,0.18);
+      transform: translateY(-1px);
+    }
+    .nav-links a:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0,255,255,0.25);
+    }
+
+    /* Hero */
+    header{
+      position: relative;
+      z-index: 1;
+      padding: 34px 20px 12px;
+    }
+    .hero{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 0 16px;
+    }
+    .hero-card{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(0,255,255,0.18);
+      background: linear-gradient(180deg, rgba(18,24,33,0.72), rgba(18,24,33,0.50));
+      box-shadow: var(--shadow);
+      padding: 22px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-card::before{
+      content:"";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(700px 240px at 20% 0%, rgba(0,255,255,0.16), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+    .hero-top{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1{
+      margin: 0;
+      font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+      line-height: 1.15;
+      letter-spacing: 0.2px;
+    }
+    .hero p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+    .hero-badges{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.22);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.92rem;
+      position: relative;
+      z-index: 2;
+    }
+    .badge-dot{
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      background: rgba(0,255,255,0.95);
+      box-shadow: 0 0 16px rgba(0,255,255,0.35);
+    }
+
+    .hero-actions{
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 16px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 900;
+      transition: transform .15s ease, background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+      border: 1px solid transparent;
+      outline: none;
+      user-select: none;
+    }
+
+    .btn-primary{
+      background: linear-gradient(180deg, var(--accent), var(--accentHover));
+      color: #061016;
+      box-shadow: 0 14px 34px rgba(0,255,255,0.18);
+    }
+    .btn-primary:hover{ transform: translateY(-1px); }
+    .btn-primary:focus-visible{ box-shadow: 0 0 0 4px rgba(0,255,255,0.25), 0 14px 34px rgba(0,255,255,0.18); }
+
+    .btn-secondary{
+      background: rgba(0,255,255,0.06);
+      border-color: rgba(0,255,255,0.22);
+      color: var(--accent);
+    }
+    .btn-secondary:hover{
+      transform: translateY(-1px);
+      background: rgba(0,255,255,0.10);
+      border-color: rgba(0,255,255,0.32);
+    }
+    .btn-secondary:focus-visible{ box-shadow: 0 0 0 4px rgba(0,255,255,0.22); }
+
+    /* Conteúdo */
+    main{ position: relative; z-index: 1; }
+    section{
+      max-width: 980px;
+      margin: 34px auto;
+      padding: 0 20px;
+    }
+
+    .section-title{
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 18px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0,255,255,0.22);
+    }
+    .section-title h2{
+      margin: 0;
+      font-size: clamp(1.15rem, 2vw, 1.4rem);
+      letter-spacing: 0.2px;
+    }
+
+    .icon{
+      width: 20px;
+      height: 20px;
+      fill: var(--accent);
+      flex: 0 0 auto;
+      filter: drop-shadow(0 0 12px rgba(0,255,255,0.20));
+    }
+
+    /* Cards de projetos */
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .project{
+      grid-column: span 12;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(18,24,33,0.70), rgba(18,24,33,0.46));
+      box-shadow: var(--shadow2);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.65s ease forwards;
+    }
+    .project:nth-child(1){ animation-delay: .05s; }
+    .project:nth-child(2){ animation-delay: .12s; }
+    .project:nth-child(3){ animation-delay: .19s; }
+
+    .project::before{
+      content:"";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(640px 260px at 10% 0%, rgba(0,255,255,0.14), transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .project:hover{
+      border-color: rgba(0,255,255,0.22);
+      transform: translateY(-2px);
+      transition: transform .18s ease, border-color .2s ease;
+    }
+
+    @keyframes fadeUp{
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior: auto; }
+      .project{ animation: none; opacity: 1; transform: none; }
+      .project:hover{ transform: none; }
+    }
+
+    .project-head{
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      position: relative;
+      z-index: 2;
+    }
+    .project h3{
+      margin: 0;
+      font-size: 1.08rem;
+      letter-spacing: 0.15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .project p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      position: relative;
+      z-index: 2;
+    }
+
+    .meta{
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,255,255,0.18);
+      background: rgba(0,0,0,0.22);
+      color: var(--muted);
+      position: relative;
+      z-index: 2;
+    }
+    .meta strong{ color: var(--text); }
+
+    /* Botão de download (mais bonito) */
+    .download{
+      margin-top: 14px;
+      position: relative;
+      z-index: 2;
+    }
+    .download a{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 16px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 900;
+      background: linear-gradient(180deg, var(--accent), var(--accentHover));
+      color: #061016;
+      box-shadow: 0 14px 34px rgba(0,255,255,0.18);
+      transition: transform .15s ease, box-shadow .2s ease;
+    }
+    .download a:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 18px 44px rgba(0,255,255,0.20);
+    }
+    .download a:focus-visible{
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(0,255,255,0.25), 0 18px 44px rgba(0,255,255,0.20);
+    }
+
+    /* Sobre */
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(18,24,33,0.64), rgba(18,24,33,0.44));
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+    .card p{ margin: 0; color: var(--muted); }
+
+    /* Chips */
+    .chips{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0;
+      list-style: none;
+      margin: 14px 0 0 0;
+    }
+    .chip{
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,255,255,0.18);
+      background: rgba(0,0,0,0.20);
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.92rem;
+      transition: transform .12s ease, border-color .2s ease, background .2s ease;
+    }
+    .chip:hover{
+      transform: translateY(-1px);
+      border-color: rgba(0,255,255,0.28);
+      background: rgba(0,255,255,0.06);
+    }
+
+    /* LinkedIn */
+    .linkedin{
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+    .linkedin a{
+      width: 48px;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid rgba(0,255,255,0.18);
+      background: rgba(0,0,0,0.22);
+      transition: transform .15s ease, border-color .2s ease, background .2s ease;
+      outline: none;
+    }
+    .linkedin a:hover{
+      transform: translateY(-1px);
+      border-color: rgba(0,255,255,0.32);
+      background: rgba(0,255,255,0.06);
+    }
+    .linkedin a:focus-visible{
+      box-shadow: 0 0 0 4px rgba(0,255,255,0.22);
+      outline: none;
+    }
+    .linkedin svg{
+      width: 26px; height: 26px;
+      fill: var(--accent);
+      transition: fill .2s ease;
+    }
+    .linkedin a:hover svg{ fill: var(--accent2); }
+
+    footer{
+      text-align: center;
+      padding: 24px 12px;
+      color: var(--muted2);
+      font-size: 0.92rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 38px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Responsivo */
+    @media (max-width: 540px){
+      .navbar-inner{ padding: 12px 14px; }
+      section{ padding: 0 14px; }
+      header{ padding: 26px 14px 8px; }
+      .hero-card{ padding: 16px; border-radius: 18px; }
     }
   </style>
 </head>
 
 <body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <nav class="navbar" aria-label="Navegação principal">
+    <div class="navbar-inner">
+      <div class="brand">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>Ramyrez • CTF Reports</span>
+      </div>
+      <div class="nav-links">
+        <a href="#projetos">Projetos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#competencias">Competências</a>
+        <a href="https://www.linkedin.com/in/ramyrez-guimaraes/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
+  </nav>
 
   <header>
-    <h1>Relatórios CTFs – Global Solution</h1>
+    <div class="hero" id="conteudo">
+      <div class="hero-card">
+        <div class="hero-top">
+          <div>
+            <h1>Relatórios CTFs – Global Solution</h1>
+            <p>
+              Relatórios técnicos com passo a passo, evidências e ferramentas usadas em desafios de segurança:
+              Linux, análise de rede, forense, criptografia e engenharia reversa.
+            </p>
+
+            <div class="hero-badges" aria-label="Áreas principais">
+              <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Linux</span>
+              <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Forense</span>
+              <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Criptografia</span>
+              <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Network</span>
+            </div>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#projetos" aria-label="Ir para projetos">Ver projetos</a>
+              <a class="btn btn-secondary" href="#sobre" aria-label="Ir para sobre o projeto">Sobre o projeto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </header>
 
-  <section>
-    <h2>
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" aria-hidden="true" focusable="false">
-        <path d="M208 0C156.5 0 112.8 30.1 93.3 74.5C41.6 92.6 0 139.5 0 192c0 35.3 28.7 64 64 64H80v32H64c-35.3 0-64 28.7-64 64s28.7 64 64 64H96v-32H64c-17.7 0-32-14.3-32-32s14.3-32 32-32H96 144v32 32H128v32h64V384 352 320h32v-32H192 144V256h48 48v-32H192 144V192h32 48V160H208 176v-16c0-26.5 21.5-48 48-48s48 21.5 48 48v16H256 224v32h48 48v32H320v32h32v32h32v32 32H352v32h64V384 352 320h32 64v-32H480V256h64v-32H480V192h32c35.3 0 64-28.7 64-64c0-52.5-41.6-99.4-93.3-117.5C527.2 30.1 483.5 0 432 0c-37.4 0-70.3 18.6-91 47.2C319.1 41.1 303.2 32 285.1 26.8C270.4 21.9 253.9 19.3 236.9 19.3C226.1 19.3 215.6 20.5 205.6 22.7C193.9 25.4 182.5 30.3 172 36.9 218.5 39.6 256 79.8 256 128c0 48.2-38.8 87.6-86.7 95.1C189.5 260.3 208 287.2 208 320v32h16 32V320 256H192c0-17.7-14.3-32-32-32H128V192c0-26.5 21.5-48 48-48s48 21.5 48 48v16h32V192c0-44.2-35.8-80-80-80s-80 35.8-80 80v32H64c-17.7 0-32 14.3-32 32s14.3 32 32 32H96V384h32v32H64c-35.3 0-64 28.7-64 64s28.7 64 64 64H576c35.3 0 64-28.7 64-64s-28.7-64-64-64H512V384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H512V256h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H512V192c0-26.5-21.5-48-48-48s-48 21.5-48 48v16H384V192c0-44.2-35.8-80-80-80s-80 35.8-80 80v32H208V192c0-26.5-21.5-48-48-48z"/>
-      </svg>
-      Projetos resolvidos
-    </h2>
-
-    <div class="project-box">
-      <h3>
+  <main>
+    <section id="projetos">
+      <div class="section-title">
         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
           <path d="M0 64C0 46.3 14.3 32 32 32H384c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H32c-17.7 0-32-14.3-32-32V64z"/>
         </svg>
-        GS 2023
-      </h3>
-
-      <p>Desafios de Linux, esteganografia, engenharia reversa e análise de rede via Wireshark.</p>
-
-      <!-- contexto rápido (recrutador entende em 5s) -->
-      <div class="meta">
-        <strong>Nível:</strong> Intermediário<br>
-        <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
+        <h2>Projetos resolvidos</h2>
       </div>
 
-      <a
-        class="download-button"
-        href="docs/CTFS_da_prova_GS_2023.pdf"
-        download
-        aria-label="Download relatório GS 2023"
-      >
-        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
-          <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
-        </svg>
-        Baixar relatório
-      </a>
-    </div>
+      <div class="grid">
+        <article class="project">
+          <div class="project-head">
+            <h3>
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
+                <path d="M224 0H32C14.3 0 0 14.3 0 32V480c0 17.7 14.3 32 32 32H352c17.7 0 32-14.3 32-32V160H256c-17.7 0-32-14.3-32-32V0zM256 0V128H384L256 0z"/>
+              </svg>
+              GS 2023
+            </h3>
+          </div>
+          <p>Desafios de Linux, esteganografia, engenharia reversa e análise de rede via Wireshark.</p>
 
-    <div class="project-box">
-      <h3>
+          <div class="meta">
+            <strong>Nível:</strong> Intermediário<br>
+            <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
+          </div>
+
+          <div class="download">
+            <a href="docs/CTFS_da_prova_GS_2023.pdf" download aria-label="Baixar relatório GS 2023">
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
+                <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
+              </svg>
+              Baixar relatório
+            </a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-head">
+            <h3>
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
+                <path d="M224 0H32C14.3 0 0 14.3 0 32V480c0 17.7 14.3 32 32 32H352c17.7 0 32-14.3 32-32V160H256c-17.7 0-32-14.3-32-32V0zM256 0V128H384L256 0z"/>
+              </svg>
+              GS 2024 – Parte 1
+            </h3>
+          </div>
+          <p>Engenharia reversa de tráfego TLS, brute force com John the Ripper e decodificações múltiplas.</p>
+
+          <div class="meta">
+            <strong>Nível:</strong> Intermediário / Avançado<br>
+            <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
+          </div>
+
+          <div class="download">
+            <a href="docs/CTFS_da_prova_GS_2024_Parte1.pdf" download aria-label="Baixar relatório GS 2024 Parte 1">
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
+                <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
+              </svg>
+              Baixar relatório
+            </a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-head">
+            <h3>
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
+                <path d="M224 0H32C14.3 0 0 14.3 0 32V480c0 17.7 14.3 32 32 32H352c17.7 0 32-14.3 32-32V160H256c-17.7 0-32-14.3-32-32V0zM256 0V128H384L256 0z"/>
+              </svg>
+              GS 2024 – Parte 2
+            </h3>
+          </div>
+          <p>CTFs forenses com ICMP, hash MD5, yEnc, exploração de CMS e elevação de privilégios em Linux.</p>
+
+          <div class="meta">
+            <strong>Nível:</strong> Avançado<br>
+            <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
+          </div>
+
+          <div class="download">
+            <a href="docs/CTFS_da_prova_GS_2024_Parte2.pdf" download aria-label="Baixar relatório GS 2024 Parte 2">
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
+                <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
+              </svg>
+              Baixar relatório
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="sobre">
+      <div class="section-title">
         <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
-          <path d="M0 64C0 46.3 14.3 32 32 32H384c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H32c-17.7 0-32-14.3-32-32V64z"/>
+          <path d="M96 48C96 21.5 117.5 0 144 0H368c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H144c-26.5 0-48-21.5-48-48V48zM160 112v32h192v-32H160zm0 96v32h192v-32H160z"/>
         </svg>
-        GS 2024 – Parte 1
-      </h3>
-
-      <p>Engenharia reversa de tráfego TLS, brute force com John the Ripper e decodificações múltiplas.</p>
-
-      <div class="meta">
-        <strong>Nível:</strong> Intermediário / Avançado<br>
-        <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
+        <h2>Sobre o Projeto</h2>
       </div>
 
-      <a
-        class="download-button"
-        href="docs/CTFS_da_prova_GS_2024_Parte1.pdf"
-        download
-        aria-label="Download relatório GS 2024 Parte 1"
-      >
-        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
-          <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
+      <div class="card">
+        <p>
+          <strong>Prova Global Solutions</strong><br><br>
+          <strong>(PT-BR)</strong> Prova Semestral onde ao longo de 4 dias os alunos devem individualmente resolver os desafios propostos, detalhando o seu passo a passo em forma de relatório técnico e encontrar o código secreto (Flag) para resolver os desafios.<br><br>
+          <strong>(EN)</strong> Semester Exam in which, over the course of four days, students must individually solve the proposed challenges, documenting their step-by-step process in the form of a technical report and identifying the secret code (Flag) required to complete each challenge.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false">
+          <path d="M501.6 60.4L451.6 10.4C443.9 2.7 432.6-1 421.3 1.1L98.8 55.1C87.3 57.3 78 66.5 75.7 78l-54 322.5c-2.1 12.3 1.6 23.6 9.3 31.3L50.4 501.6c7.6 7.6 17.8 10.9 27.8 8.3L400 464.2c10.7-2.7 19.5-10.5 22.3-21.1L510.9 90.3c2.1-11.3-1.4-22.6-9.3-29.9zM440 400H128v32H96v-32H64v-32H96v-64H64v-32H96v-64H64v-32H96v-64H64v-32H96V96h32V64h32V96h256V64h32v32h32v32H416v64h32v32H416v64h32v32H416v64h32v32z"/>
         </svg>
-        Baixar relatório
-      </a>
-    </div>
-
-    <div class="project-box">
-      <h3>
-        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
-          <path d="M0 64C0 46.3 14.3 32 32 32H384c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H32c-17.7 0-32-14.3-32-32V64z"/>
-        </svg>
-        GS 2024 – Parte 2
-      </h3>
-
-      <p>CTFs forenses com ICMP, hash MD5, yEnc, exploração de CMS e elevação de privilégios em Linux.</p>
-
-      <div class="meta">
-        <strong>Nível:</strong> Avançado<br>
-        <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
+        <h2 id="competencias">Competências desenvolvidas</h2>
       </div>
 
-      <a
-        class="download-button"
-        href="docs/CTFS_da_prova_GS_2024_Parte2.pdf"
-        download
-        aria-label="Download relatório GS 2024 Parte 2"
-      >
-        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
-          <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
-        </svg>
-        Baixar relatório
-      </a>
-    </div>
-  </section>
+      <div class="card">
+        <p style="margin:0;color:var(--muted);">
+          Principais ferramentas e tópicos praticados nos desafios e relatórios:
+        </p>
 
-  <section>
-    <h2>
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-hidden="true" focusable="false">
-        <path d="M96 48C96 21.5 117.5 0 144 0H368c26.5 0 48 21.5 48 48V432c0 26.5-21.5 48-48 48H144c-26.5 0-48-21.5-48-48V48zM160 112v32h192v-32H160zm0 96v32h192v-32H160z"/>
-      </svg>
-      Sobre o Projeto
-    </h2>
+        <ul class="chips" aria-label="Lista de competências em formato de chips">
+          <li class="chip">Linux</li>
+          <li class="chip">Wireshark</li>
+          <li class="chip">John the Ripper</li>
+          <li class="chip">Steganography</li>
+          <li class="chip">Brute force</li>
+          <li class="chip">Cybersecurity</li>
+          <li class="chip">CTF</li>
+          <li class="chip">Penetration Testing</li>
+          <li class="chip">Hashes</li>
+          <li class="chip">Decoding</li>
+          <li class="chip">Cryptography</li>
+          <li class="chip">Python</li>
+          <li class="chip">Aircrack-NG</li>
+          <li class="chip">Wi-Fi Hacking</li>
+          <li class="chip">Tshark</li>
+          <li class="chip">yEnc</li>
+          <li class="chip">Kali Linux</li>
+        </ul>
 
-    <p>
-      <strong>Prova Global Solutions</strong><br><br>
-      <strong>(PT-BR)</strong> Prova Semestral onde ao longo de 4 dias os alunos devem individualmente resolver os desafios propostos, detalhando o seu passo a passo em forma de relatório técnico e encontrar o código secreto (Flag) para resolver os desafios.<br><br>
-      <strong>(EN)</strong> Semester Exam in which, over the course of four days, students must individually solve the proposed challenges, documenting their step-by-step process in the form of a technical report and identifying the secret code (Flag) required to complete each challenge.
-    </p>
+        <div class="linkedin">
+          <a href="https://www.linkedin.com/in/ramyrez-guimaraes/" target="_blank" rel="noopener noreferrer"
+             aria-label="Abrir LinkedIn do Ramyrez em nova aba" title="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.025-3.037-1.851-3.037-1.851 0-2.134 1.445-2.134 2.939v5.667H9.354V9h3.414v1.561h.048c.476-.899 1.637-1.849 3.367-1.849 3.598 0 4.263 2.368 4.263 5.448v6.292zM5.337 7.433c-1.144 0-2.068-.926-2.068-2.068 0-1.143.924-2.068 2.068-2.068 1.143 0 2.068.925 2.068 2.068 0 1.142-.925 2.068-2.068 2.068zM6.813 20.452H3.862V9h2.951v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.205 24 24 23.226 24 22.271V1.729C24 .774 23.205 0 22.225 0z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
 
-    <h3>
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" aria-hidden="true" focusable="false">
-        <path d="M501.6 60.4L451.6 10.4C443.9 2.7 432.6-1 421.3 1.1L98.8 55.1C87.3 57.3 78 66.5 75.7 78l-54 322.5c-2.1 12.3 1.6 23.6 9.3 31.3L50.4 501.6c7.6 7.6 17.8 10.9 27.8 8.3L400 464.2c10.7-2.7 19.5-10.5 22.3-21.1L510.9 90.3c2.1-11.3-1.4-22.6-9.3-29.9zM440 400H128v32H96v-32H64v-32H96v-64H64v-32H96v-64H64v-32H96v-64H64v-32H96V96h32V64h32V96h256V64h32v32h32v32H416v64h32v32H416v64h32v32H416v64h32v32z"/>
-      </svg>
-      Competências desenvolvidas
-    </h3>
-
-    <p class="skill-hint">
-      Principais ferramentas e tópicos praticados nos desafios e relatórios:
-    </p>
-
-    <ul>
-      <li>Linux</li><li>Wireshark</li><li>John the Ripper</li><li>Steganography</li><li>Brute force</li><li>Cybersecurity</li>
-      <li>CTF</li><li>Penetration Testing</li><li>Hashes</li><li>Decoding</li><li>Cryptography</li><li>Python</li>
-      <li>Aircrack-NG</li><li>Wi-Fi Hacking</li><li>Tshark</li><li>YenC</li><li>Kali Linux</li>
-    </ul>
-
-    <div class="linkedin-icon">
-      <a
-        href="https://www.linkedin.com/in/ramyrez-guimaraes/"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Abrir LinkedIn do Ramyrez em nova aba"
-        title="LinkedIn"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.025-3.037-1.851-3.037-1.851 0-2.134 1.445-2.134 2.939v5.667H9.354V9h3.414v1.561h.048c.476-.899 1.637-1.849 3.367-1.849 3.598 0 4.263 2.368 4.263 5.448v6.292zM5.337 7.433c-1.144 0-2.068-.926-2.068-2.068 0-1.143.924-2.068 2.068-2.068 1.143 0 2.068.925 2.068 2.068 0 1.142-.925 2.068-2.068 2.068zM6.813 20.452H3.862V9h2.951v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.205 24 24 23.226 24 22.271V1.729C24 .774 23.205 0 22.225 0z"/>
-        </svg>
-      </a>
-    </div>
-  </section>
-
-  <footer>
-    &copy; 2025 Ramyrez Guimarães | Cibersegurança
-  </footer>
-
+    <footer>
+      &copy; 2025 Ramyrez Guimarães | Cibersegurança
+    </footer>
+  </main>
 </body>
 </html>
