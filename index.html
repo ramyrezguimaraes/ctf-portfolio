@@ -12,42 +12,86 @@
   <meta name="theme-color" content="#00ffff" />
 
   <style>
+    /* ============================
+       THEME TOKENS (2 temas)
+       ============================ */
     :root{
       --bg: #0b0f14;
       --bg2: #0a0d12;
+
       --panel: rgba(18, 24, 33, 0.72);
       --panel2: rgba(18, 24, 33, 0.52);
+
       --text: #e9f1ff;
-      --muted: rgba(233,241,255,0.72);
-      --muted2: rgba(233,241,255,0.52);
+      --muted: rgba(233,241,255,0.74);
+      --muted2: rgba(233,241,255,0.55);
+
       --accent: #00ffff;
       --accent2: #44ffe5;
       --accentHover: #00c8c8;
+
       --border: rgba(0, 255, 255, 0.22);
       --border2: rgba(255,255,255,0.08);
+
       --shadow: 0 18px 60px rgba(0,0,0,0.45);
       --shadow2: 0 10px 30px rgba(0,0,0,0.28);
+
       --radius: 16px;
       --radius2: 22px;
+
+      --gridOpacity: 0.18;
+      --glow1: rgba(0,255,255,0.14);
+      --glow2: rgba(68,255,229,0.10);
+      --glow3: rgba(0,255,255,0.08);
     }
 
+    /* Tema "discreto": menos neon, mais corporativo */
+    [data-theme="discrete"]{
+      --bg: #0c1016;
+      --bg2: #0b0f14;
+
+      --panel: rgba(18, 24, 33, 0.78);
+      --panel2: rgba(18, 24, 33, 0.60);
+
+      --text: #e9f1ff;
+      --muted: rgba(233,241,255,0.70);
+      --muted2: rgba(233,241,255,0.52);
+
+      --accent: #6bd7ff;
+      --accent2: #8fe2ff;
+      --accentHover: #47bfe6;
+
+      --border: rgba(107, 215, 255, 0.18);
+      --border2: rgba(255,255,255,0.08);
+
+      --shadow: 0 18px 60px rgba(0,0,0,0.46);
+      --shadow2: 0 10px 28px rgba(0,0,0,0.30);
+
+      --gridOpacity: 0.12;
+      --glow1: rgba(107,215,255,0.08);
+      --glow2: rgba(143,226,255,0.06);
+      --glow3: rgba(107,215,255,0.05);
+    }
+
+    /* ============================
+       BASE
+       ============================ */
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
     body{
       margin: 0;
       color: var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
       line-height: 1.6;
       background:
-        radial-gradient(900px 520px at 15% 10%, rgba(0,255,255,0.14), transparent 60%),
-        radial-gradient(900px 520px at 90% 20%, rgba(68,255,229,0.10), transparent 60%),
-        radial-gradient(700px 460px at 60% 95%, rgba(0,255,255,0.08), transparent 62%),
+        radial-gradient(900px 520px at 15% 10%, var(--glow1), transparent 60%),
+        radial-gradient(900px 520px at 90% 20%, var(--glow2), transparent 60%),
+        radial-gradient(700px 460px at 60% 95%, var(--glow3), transparent 62%),
         linear-gradient(180deg, var(--bg), var(--bg2));
       overflow-x: hidden;
     }
 
-    /* Grid bem suave no fundo */
+    /* Grid suave no fundo */
     body::before{
       content:"";
       position: fixed;
@@ -58,20 +102,20 @@
         linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
       background-size: 48px 48px;
       mask-image: radial-gradient(circle at 30% 0%, rgba(0,0,0,1), rgba(0,0,0,0) 55%);
-      opacity: 0.18;
+      opacity: var(--gridOpacity);
       z-index: 0;
     }
 
     a { color: var(--accent); }
     a:hover { color: var(--accent2); }
 
-    /* Skip link (acessibilidade) */
+    /* Acessibilidade */
     .skip-link{
       position: absolute;
       left: -999px;
       top: 10px;
       background: var(--accent);
-      color: #071018;
+      color: #061016;
       padding: 10px 14px;
       border-radius: 12px;
       font-weight: 900;
@@ -79,7 +123,9 @@
     }
     .skip-link:focus{ left: 10px; }
 
-    /* Navbar */
+    /* ============================
+       NAVBAR
+       ============================ */
     .navbar{
       position: sticky;
       top: 0;
@@ -113,8 +159,17 @@
       height: 10px;
       border-radius: 999px;
       background: var(--accent);
-      box-shadow: 0 0 20px rgba(0,255,255,0.45);
+      box-shadow: 0 0 20px rgba(0,0,0,0.0), 0 0 18px rgba(0,0,0,0.0);
+      /* leve glow controlado (adaptado ao tema pelo accent) */
+      box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent);
       flex: 0 0 auto;
+    }
+    .nav-right{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
     .nav-links{
       display: flex;
@@ -133,16 +188,51 @@
     }
     .nav-links a:hover{
       color: var(--text);
-      background: rgba(0,255,255,0.08);
-      border-color: rgba(0,255,255,0.18);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
       transform: translateY(-1px);
     }
     .nav-links a:focus-visible{
       outline: none;
-      box-shadow: 0 0 0 3px rgba(0,255,255,0.25);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
     }
 
-    /* Hero */
+    /* Toggle */
+    .toggle{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.22);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-weight: 800;
+      user-select: none;
+    }
+    .toggle button{
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      padding: 6px 10px;
+      border-radius: 999px;
+      transition: background .2s ease, color .2s ease;
+      outline: none;
+    }
+    .toggle button[aria-pressed="true"]{
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .toggle button:focus-visible{
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    /* ============================
+       HERO
+       ============================ */
     header{
       position: relative;
       z-index: 1;
@@ -155,8 +245,8 @@
     }
     .hero-card{
       border-radius: var(--radius2);
-      border: 1px solid rgba(0,255,255,0.18);
-      background: linear-gradient(180deg, rgba(18,24,33,0.72), rgba(18,24,33,0.50));
+      border: 1px solid var(--border2);
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
       box-shadow: var(--shadow);
       padding: 22px;
       overflow: hidden;
@@ -166,35 +256,32 @@
       content:"";
       position: absolute;
       inset: -2px;
-      background: radial-gradient(700px 240px at 20% 0%, rgba(0,255,255,0.16), transparent 55%);
-      opacity: 0.9;
+      background: radial-gradient(700px 240px at 20% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 55%);
+      opacity: 0.95;
       pointer-events: none;
-    }
-    .hero-top{
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      position: relative;
-      z-index: 2;
     }
     .hero h1{
       margin: 0;
       font-size: clamp(1.4rem, 2.6vw, 2.1rem);
       line-height: 1.15;
       letter-spacing: 0.2px;
+      position: relative;
+      z-index: 2;
     }
     .hero p{
       margin: 10px 0 0;
       color: var(--muted);
-      max-width: 70ch;
+      max-width: 75ch;
+      position: relative;
+      z-index: 2;
     }
     .hero-badges{
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 14px;
+      position: relative;
+      z-index: 2;
     }
     .badge{
       display: inline-flex;
@@ -207,16 +294,13 @@
       color: var(--muted);
       font-weight: 800;
       font-size: 0.92rem;
-      position: relative;
-      z-index: 2;
     }
     .badge-dot{
       width: 8px; height: 8px;
       border-radius: 999px;
-      background: rgba(0,255,255,0.95);
-      box-shadow: 0 0 16px rgba(0,255,255,0.35);
+      background: var(--accent);
+      box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 30%, transparent);
     }
-
     .hero-actions{
       display: flex;
       gap: 12px;
@@ -226,6 +310,7 @@
       z-index: 2;
     }
 
+    /* Botões */
     .btn{
       display: inline-flex;
       align-items: center;
@@ -238,29 +323,35 @@
       border: 1px solid transparent;
       outline: none;
       user-select: none;
+      cursor: pointer;
     }
-
     .btn-primary{
       background: linear-gradient(180deg, var(--accent), var(--accentHover));
       color: #061016;
-      box-shadow: 0 14px 34px rgba(0,255,255,0.18);
+      box-shadow: 0 14px 34px color-mix(in srgb, var(--accent) 18%, transparent);
     }
     .btn-primary:hover{ transform: translateY(-1px); }
-    .btn-primary:focus-visible{ box-shadow: 0 0 0 4px rgba(0,255,255,0.25), 0 14px 34px rgba(0,255,255,0.18); }
-
+    .btn-primary:focus-visible{
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 25%, transparent),
+                  0 14px 34px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
     .btn-secondary{
-      background: rgba(0,255,255,0.06);
-      border-color: rgba(0,255,255,0.22);
-      color: var(--accent);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.10);
+      color: var(--text);
     }
     .btn-secondary:hover{
       transform: translateY(-1px);
-      background: rgba(0,255,255,0.10);
-      border-color: rgba(0,255,255,0.32);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.14);
     }
-    .btn-secondary:focus-visible{ box-shadow: 0 0 0 4px rgba(0,255,255,0.22); }
+    .btn-secondary:focus-visible{
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+    }
 
-    /* Conteúdo */
+    /* ============================
+       CONTENT
+       ============================ */
     main{ position: relative; z-index: 1; }
     section{
       max-width: 980px;
@@ -274,7 +365,7 @@
       gap: 12px;
       margin: 0 0 18px 0;
       padding-bottom: 12px;
-      border-bottom: 1px solid rgba(0,255,255,0.22);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .section-title h2{
       margin: 0;
@@ -287,20 +378,22 @@
       height: 20px;
       fill: var(--accent);
       flex: 0 0 auto;
-      filter: drop-shadow(0 0 12px rgba(0,255,255,0.20));
+      filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 20%, transparent));
     }
 
-    /* Cards de projetos */
+    /* Grid */
     .grid{
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 14px;
     }
+
+    /* Card de projeto */
     .project{
       grid-column: span 12;
       border-radius: var(--radius);
       border: 1px solid rgba(255,255,255,0.08);
-      background: linear-gradient(180deg, rgba(18,24,33,0.70), rgba(18,24,33,0.46));
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
       box-shadow: var(--shadow2);
       padding: 18px;
       position: relative;
@@ -318,20 +411,18 @@
       content:"";
       position: absolute;
       inset: -2px;
-      background: radial-gradient(640px 260px at 10% 0%, rgba(0,255,255,0.14), transparent 55%);
-      opacity: 0.8;
+      background: radial-gradient(640px 260px at 10% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 55%);
+      opacity: 0.9;
       pointer-events: none;
     }
 
     .project:hover{
-      border-color: rgba(0,255,255,0.22);
+      border-color: rgba(255,255,255,0.12);
       transform: translateY(-2px);
       transition: transform .18s ease, border-color .2s ease;
     }
 
-    @keyframes fadeUp{
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp{ to { opacity: 1; transform: translateY(0); } }
     @media (prefers-reduced-motion: reduce){
       html{ scroll-behavior: auto; }
       .project{ animation: none; opacity: 1; transform: none; }
@@ -365,7 +456,7 @@
       margin-top: 14px;
       padding: 12px 14px;
       border-radius: 14px;
-      border: 1px solid rgba(0,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.22);
       color: var(--muted);
       position: relative;
@@ -373,43 +464,15 @@
     }
     .meta strong{ color: var(--text); }
 
-    /* Botão de download (mais bonito) */
-    .download{
+    /* Ações do projeto: Preview + Download */
+    .actions{
       margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
       position: relative;
       z-index: 2;
     }
-    .download a{
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 16px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 900;
-      background: linear-gradient(180deg, var(--accent), var(--accentHover));
-      color: #061016;
-      box-shadow: 0 14px 34px rgba(0,255,255,0.18);
-      transition: transform .15s ease, box-shadow .2s ease;
-    }
-    .download a:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 18px 44px rgba(0,255,255,0.20);
-    }
-    .download a:focus-visible{
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(0,255,255,0.25), 0 18px 44px rgba(0,255,255,0.20);
-    }
-
-    /* Sobre */
-    .card{
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.08);
-      background: linear-gradient(180deg, rgba(18,24,33,0.64), rgba(18,24,33,0.44));
-      box-shadow: var(--shadow2);
-      padding: 18px;
-    }
-    .card p{ margin: 0; color: var(--muted); }
 
     /* Chips */
     .chips{
@@ -423,7 +486,7 @@
     .chip{
       padding: 9px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(0,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.20);
       color: var(--muted);
       font-weight: 800;
@@ -432,9 +495,19 @@
     }
     .chip:hover{
       transform: translateY(-1px);
-      border-color: rgba(0,255,255,0.28);
-      background: rgba(0,255,255,0.06);
+      border-color: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.04);
     }
+
+    /* Cards genéricos */
+    .card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      box-shadow: var(--shadow2);
+      padding: 18px;
+    }
+    .card p{ margin: 0; color: var(--muted); }
 
     /* LinkedIn */
     .linkedin{
@@ -449,18 +522,18 @@
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      border: 1px solid rgba(0,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.22);
       transition: transform .15s ease, border-color .2s ease, background .2s ease;
       outline: none;
     }
     .linkedin a:hover{
       transform: translateY(-1px);
-      border-color: rgba(0,255,255,0.32);
-      background: rgba(0,255,255,0.06);
+      border-color: rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.04);
     }
     .linkedin a:focus-visible{
-      box-shadow: 0 0 0 4px rgba(0,255,255,0.22);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
       outline: none;
     }
     .linkedin svg{
@@ -488,6 +561,105 @@
       header{ padding: 26px 14px 8px; }
       .hero-card{ padding: 16px; border-radius: 18px; }
     }
+
+    /* ============================
+       MODAL PDF PREVIEW
+       ============================ */
+    .modal-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 999;
+    }
+    .modal-backdrop[aria-hidden="false"]{ display: flex; }
+
+    .modal{
+      width: min(980px, 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(180deg, rgba(18,24,33,0.92), rgba(18,24,33,0.86));
+      box-shadow: 0 22px 70px rgba(0,0,0,0.55);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.18);
+    }
+    .modal-title{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--text);
+      margin: 0;
+      font-size: 1rem;
+    }
+    .modal-title small{
+      color: var(--muted2);
+      font-weight: 800;
+    }
+
+    .modal-actions{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .icon-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.22);
+      color: var(--text);
+      cursor: pointer;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+      outline: none;
+    }
+    .icon-btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .icon-btn:focus-visible{
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+    }
+
+    .modal-body{
+      height: min(72vh, 720px);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .pdf-embed{
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: rgba(0,0,0,0.12);
+    }
+
+    .modal-hint{
+      padding: 10px 14px;
+      color: var(--muted2);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.14);
+    }
   </style>
 </head>
 
@@ -500,11 +672,20 @@
         <span class="brand-dot" aria-hidden="true"></span>
         <span>Ramyrez • CTF Reports</span>
       </div>
-      <div class="nav-links">
-        <a href="#projetos">Projetos</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#competencias">Competências</a>
-        <a href="https://www.linkedin.com/in/ramyrez-guimaraes/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#projetos">Projetos</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#competencias">Competências</a>
+          <a href="https://www.linkedin.com/in/ramyrez-guimaraes/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+
+        <!-- Toggle de tema -->
+        <div class="toggle" aria-label="Alternar tema">
+          <button id="btnNeon" type="button" aria-pressed="true" title="Tema Neon">Neon</button>
+          <button id="btnDiscrete" type="button" aria-pressed="false" title="Tema Discreto">Discreto</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -512,26 +693,22 @@
   <header>
     <div class="hero" id="conteudo">
       <div class="hero-card">
-        <div class="hero-top">
-          <div>
-            <h1>Relatórios CTFs – Global Solution</h1>
-            <p>
-              Relatórios técnicos com passo a passo, evidências e ferramentas usadas em desafios de segurança:
-              Linux, análise de rede, forense, criptografia e engenharia reversa.
-            </p>
+        <h1>Relatórios CTFs – Global Solution</h1>
+        <p>
+          Relatórios técnicos com passo a passo, evidências e ferramentas usadas em desafios de segurança:
+          Linux, análise de rede, forense, criptografia e engenharia reversa.
+        </p>
 
-            <div class="hero-badges" aria-label="Áreas principais">
-              <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Linux</span>
-              <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Forense</span>
-              <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Criptografia</span>
-              <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Network</span>
-            </div>
+        <div class="hero-badges" aria-label="Áreas principais">
+          <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Linux</span>
+          <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Forense</span>
+          <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Criptografia</span>
+          <span class="badge"><span class="badge-dot" aria-hidden="true"></span> Network</span>
+        </div>
 
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="#projetos" aria-label="Ir para projetos">Ver projetos</a>
-              <a class="btn btn-secondary" href="#sobre" aria-label="Ir para sobre o projeto">Sobre o projeto</a>
-            </div>
-          </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projetos" aria-label="Ir para projetos">Ver projetos</a>
+          <a class="btn btn-secondary" href="#sobre" aria-label="Ir para sobre o projeto">Sobre o projeto</a>
         </div>
       </div>
     </div>
@@ -547,6 +724,7 @@
       </div>
 
       <div class="grid">
+        <!-- GS 2023 -->
         <article class="project">
           <div class="project-head">
             <h3>
@@ -556,6 +734,7 @@
               GS 2023
             </h3>
           </div>
+
           <p>Desafios de Linux, esteganografia, engenharia reversa e análise de rede via Wireshark.</p>
 
           <div class="meta">
@@ -563,16 +742,24 @@
             <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
           </div>
 
-          <div class="download">
-            <a href="docs/CTFS_da_prova_GS_2023.pdf" download aria-label="Baixar relatório GS 2023">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
-                <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
-              </svg>
-              Baixar relatório
+          <div class="actions">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-pdf="docs/CTFS_da_prova_GS_2023.pdf"
+              data-title="GS 2023"
+              aria-label="Pré-visualizar PDF GS 2023"
+            >
+              Preview
+            </button>
+
+            <a class="btn btn-primary" href="docs/CTFS_da_prova_GS_2023.pdf" download aria-label="Baixar relatório GS 2023">
+              Download
             </a>
           </div>
         </article>
 
+        <!-- GS 2024 Parte 1 -->
         <article class="project">
           <div class="project-head">
             <h3>
@@ -582,6 +769,7 @@
               GS 2024 – Parte 1
             </h3>
           </div>
+
           <p>Engenharia reversa de tráfego TLS, brute force com John the Ripper e decodificações múltiplas.</p>
 
           <div class="meta">
@@ -589,16 +777,24 @@
             <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
           </div>
 
-          <div class="download">
-            <a href="docs/CTFS_da_prova_GS_2024_Parte1.pdf" download aria-label="Baixar relatório GS 2024 Parte 1">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
-                <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
-              </svg>
-              Baixar relatório
+          <div class="actions">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-pdf="docs/CTFS_da_prova_GS_2024_Parte1.pdf"
+              data-title="GS 2024 – Parte 1"
+              aria-label="Pré-visualizar PDF GS 2024 Parte 1"
+            >
+              Preview
+            </button>
+
+            <a class="btn btn-primary" href="docs/CTFS_da_prova_GS_2024_Parte1.pdf" download aria-label="Baixar relatório GS 2024 Parte 1">
+              Download
             </a>
           </div>
         </article>
 
+        <!-- GS 2024 Parte 2 -->
         <article class="project">
           <div class="project-head">
             <h3>
@@ -608,6 +804,7 @@
               GS 2024 – Parte 2
             </h3>
           </div>
+
           <p>CTFs forenses com ICMP, hash MD5, yEnc, exploração de CMS e elevação de privilégios em Linux.</p>
 
           <div class="meta">
@@ -615,12 +812,19 @@
             <strong>Tipo:</strong> CTF técnico individual / relatório passo a passo
           </div>
 
-          <div class="download">
-            <a href="docs/CTFS_da_prova_GS_2024_Parte2.pdf" download aria-label="Baixar relatório GS 2024 Parte 2">
-              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true" focusable="false">
-                <path d="M224 0H160V288H96L192 384L288 288H224V0zM384 448H0V512H384V448z"/>
-              </svg>
-              Baixar relatório
+          <div class="actions">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              data-pdf="docs/CTFS_da_prova_GS_2024_Parte2.pdf"
+              data-title="GS 2024 – Parte 2"
+              aria-label="Pré-visualizar PDF GS 2024 Parte 2"
+            >
+              Preview
+            </button>
+
+            <a class="btn btn-primary" href="docs/CTFS_da_prova_GS_2024_Parte2.pdf" download aria-label="Baixar relatório GS 2024 Parte 2">
+              Download
             </a>
           </div>
         </article>
@@ -692,5 +896,148 @@
       &copy; 2025 Ramyrez Guimarães | Cibersegurança
     </footer>
   </main>
+
+  <!-- MODAL PDF PREVIEW -->
+  <div class="modal-backdrop" id="pdfModalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pdfModalTitle">
+      <div class="modal-header">
+        <h3 class="modal-title" id="pdfModalTitle">
+          Preview: <span id="pdfTitleText">Documento</span>
+          <small id="pdfUrlText"></small>
+        </h3>
+
+        <div class="modal-actions">
+          <a class="btn btn-primary" id="pdfDownloadBtn" href="#" download aria-label="Baixar PDF aberto no preview">
+            Download
+          </a>
+          <button class="icon-btn" id="pdfCloseBtn" type="button" aria-label="Fechar preview (Esc)">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <iframe class="pdf-embed" id="pdfFrame" src="" title="Pré-visualização do PDF"></iframe>
+      </div>
+
+      <div class="modal-hint">
+        Dica: pressione <strong>Esc</strong> para fechar • Clique fora do modal para fechar.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      /* ============================
+         THEME TOGGLE (Neon / Discrete)
+         ============================ */
+      const root = document.documentElement;
+      const btnNeon = document.getElementById("btnNeon");
+      const btnDiscrete = document.getElementById("btnDiscrete");
+
+      const THEME_KEY = "ramyrez_theme";
+      const savedTheme = localStorage.getItem(THEME_KEY);
+
+      function applyTheme(theme) {
+        if (theme === "discrete") {
+          root.setAttribute("data-theme", "discrete");
+          btnNeon.setAttribute("aria-pressed", "false");
+          btnDiscrete.setAttribute("aria-pressed", "true");
+        } else {
+          root.removeAttribute("data-theme"); // Neon default
+          btnNeon.setAttribute("aria-pressed", "true");
+          btnDiscrete.setAttribute("aria-pressed", "false");
+        }
+        localStorage.setItem(THEME_KEY, theme);
+      }
+
+      // Inicializa
+      applyTheme(savedTheme === "discrete" ? "discrete" : "neon");
+
+      btnNeon.addEventListener("click", () => applyTheme("neon"));
+      btnDiscrete.addEventListener("click", () => applyTheme("discrete"));
+
+      /* ============================
+         PDF PREVIEW MODAL
+         ============================ */
+      const backdrop = document.getElementById("pdfModalBackdrop");
+      const frame = document.getElementById("pdfFrame");
+      const titleText = document.getElementById("pdfTitleText");
+      const urlText = document.getElementById("pdfUrlText");
+      const closeBtn = document.getElementById("pdfCloseBtn");
+      const downloadBtn = document.getElementById("pdfDownloadBtn");
+
+      let lastFocusedElement = null;
+
+      function openModal(pdfUrl, title) {
+        lastFocusedElement = document.activeElement;
+
+        titleText.textContent = title || "Documento";
+        urlText.textContent = ""; // Mantém limpo; se quiser, pode mostrar o caminho aqui
+        frame.src = pdfUrl;
+        downloadBtn.href = pdfUrl;
+
+        backdrop.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+
+        // Foca no botão de fechar para acessibilidade
+        closeBtn.focus();
+      }
+
+      function closeModal() {
+        backdrop.setAttribute("aria-hidden", "true");
+        frame.src = ""; // limpa para parar o PDF e economizar recursos
+        document.body.style.overflow = "";
+
+        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+          lastFocusedElement.focus();
+        }
+      }
+
+      // Clique nos botões de preview (data-pdf)
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-pdf]");
+        if (!btn) return;
+
+        const pdfUrl = btn.getAttribute("data-pdf");
+        const title = btn.getAttribute("data-title") || "Documento";
+        openModal(pdfUrl, title);
+      });
+
+      // Fechar por botão
+      closeBtn.addEventListener("click", closeModal);
+
+      // Fechar ao clicar fora do modal
+      backdrop.addEventListener("click", (e) => {
+        // se clicou no backdrop (fora da caixa)
+        if (e.target === backdrop) closeModal();
+      });
+
+      // Fechar com ESC
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && backdrop.getAttribute("aria-hidden") === "false") {
+          closeModal();
+        }
+      });
+
+      // "Trap" simples de foco dentro do modal (mínimo necessário)
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Tab") return;
+        if (backdrop.getAttribute("aria-hidden") !== "false") return;
+
+        const focusable = backdrop.querySelectorAll('a[href], button:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])');
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
